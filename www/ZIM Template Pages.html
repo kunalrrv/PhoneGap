@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<!-- saved from url=(0040)http://zimjs.com/code/templatepages.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
 <title>ZIM Template Pages</title> 
 
 <!-- for CreateJS and ZIMjs http://zimjs.com - free to modify - Dan Zen 2015 -->
 <!-- see http://zimjs.com/templates for more templates and meta tags -->
 
 <script>var zon = true; // true for comments from zim code</script>
-<script src="./ZIM Template Pages_files/zim_1.4_min.js"></script><!-- take off _min to see code -->
-<script src="./ZIM Template Pages_files/createjs-2014.12.12.min.js"></script> 
+<script src="http://d309knd7es5f10.cloudfront.net/zim_1.4_min.js"></script><!-- take off _min to see code -->
+<script src="http://code.createjs.com/createjs-2014.12.12.min.js"></script> 
 <!-- or can go to zimjs.com and createjs.com for individual modules -->
 
 <style>
@@ -33,8 +34,8 @@ frame.on("ready", function() {
 	zog("ready from zim Frame - Pages");
 	
 	var stage = frame.stage;
-	var stageW = frame.stageW;
-	var stageH = frame.stageH;
+	var stageW = frame.width;
+	var stageH = frame.height;
 
 	// put your code here (you can delete this code)
 	
@@ -115,8 +116,8 @@ frame.on("ready", function() {
 	// put resizing code in here (scaling="full" only)
 	frame.on("resize", resize);
 	function resize(e) {
-		stageW = frame.stageW;
-		stageH = frame.stageH;
+		stageW = frame.width;
+		stageH = frame.height;
 		
 		// do any custom scaling
 		// page2 is not in a layout so will need to scale manually
@@ -172,9 +173,7 @@ frame.on("ready", function() {
 </script>
 </head>
 
-<body data-pinterest-extension-installed="cr1.35" style="overflow: hidden;">
+<body>
 <!-- canvas with id="myCanvas" is made by zim Frame -->
-
-<script type="text/javascript">(function () {
-        return window.SIG_EXT = {};
-      })()</script><canvas id="myCanvas" width="1920" height="1920" style="top: 0px; left: 0px;"></canvas></body></html>
+</body>
+</html>
