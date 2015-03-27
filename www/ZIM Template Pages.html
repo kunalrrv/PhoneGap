@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)http://zimjs.com/code/templatepages.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>ZIM Template Pages</title> 
+
+<!-- for CreateJS and ZIMjs http://zimjs.com - free to modify - Dan Zen 2015 -->
+<!-- see http://zimjs.com/templates for more templates and meta tags -->
+
+<script>var zon = true; // true for comments from zim code</script>
+<script src="./ZIM Template Pages_files/zim_1.4_min.js"></script><!-- take off _min to see code -->
+<script src="./ZIM Template Pages_files/createjs-2014.12.12.min.js"></script> 
+<!-- or can go to zimjs.com and createjs.com for individual modules -->
+
+<style>
+	body {margin:0px; padding:0px; background-color:#000;}
+	#myCanvas {position:absolute; background-color:#333;}
+</style>
+
+<script>
+
+// SCALING OPTIONS
+// "none"		sets canvas and stage to dimensions and does not scale if window changes
+// "fit"		sets canvas and stage to dimensions and scales to fit inside window size
+// "outside"	sets canvas and stage to dimensions and scales to fit outside window size
+// "full"		sets canvas and stage to window size (canvas is actually set to screen size)
+
+var scaling = "full"; // full automatically sets width and height to window size
+var width = null;
+var height = null;
+var frame = new zim.Frame(scaling, width, height); 
+frame.on("ready", function() {	
+	zog("ready from zim Frame - Pages");
+	
+	var stage = frame.stage;
+	var stageW = frame.stageW;
+	var stageH = frame.stageH;
+
+	// put your code here (you can delete this code)
+	
+	var page1 = new createjs.Container();
+	page1.name = "page1"; 
+	page1.setBounds(0,0,stageW,stageH);
+	
+	var page2 = new createjs.Container();
+	page2.name = "page2";			
+	page2.setBounds(0,0,stageW,stageH);
+	var backing2 = new createjs.Shape();
+	backing2.graphics.f("#d1a170").dr(0,0,stageW,stageH);
+	page2.addChild(backing2);
+	
+	
+	var gridManager = new zim.GridManager();
+	var guideManager = new zim.GuideManager();
+	var layoutManager = new zim.LayoutManager();
+			
+	var left = makeContent(200,500,"#acd241");
+	var middle = makeContent(500,500,"#e472c4");
+	var right = makeContent(200,500,"#50c4b7");
+	
+	gridManager.add(new zim.Grid(middle));
+	guideManager.add(new zim.Guide(middle));
+	guideManager.add(new zim.Guide(middle, false));
+	
+	var layout = new zim.Layout(stage, 
+	   [{object:left, marginLeft:5, maxHeight:80, align:"right"},
+		{object:middle, marginLeft:5, maxHeight:80, align:"middle"},
+		{object:right, marginLeft:5, maxHeight:80, align:"left"}],
+	5, "#333", false); // note: setting background color helps swipe
+	layoutManager.add(layout);	
+	
+	function makeContent(w,h,c) {
+		var content = new createjs.Container();
+		content.setBounds(0,0,w,h);
+		var backing = new createjs.Shape();
+		backing.graphics.f(c).rr(0,0,w,h,30);
+		content.addChild(backing);
+		page1.addChild(content);
+		return content;
+	}
+	
+	var pages = new zim.Pages(stage,
+	   [{page:page1, swipe:[page2, page2, null, null]},	
+		{page:page2, swipe:[page1, page1, null, null]}],					
+		"slide", 500);
+	stage.addChild(pages);
+	
+	var button = new zim.Button(120,60,"ZIM","#ade506","#d0c841","#6d8528");
+	zim.centerReg(button);
+	button.on("click", function() {zgo("http://zimjs.com/code/index.html?templates");});
+	button.x = left.getBounds().width/2;
+	button.y = 420;
+	zim.scaleTo(button, left, 60);
+	left.addChild(button);
+	
+	// hotspots - often easier to apply all navigation from one spot
+	// hotspots can be put on any object or act like an image map 
+	var url = "http://zimjs.com/code/index.html?templates";
+	var hotSpots = new zim.HotSpots([
+		{page:page1, rect:button, call:function(){zgo(url);} },
+		{page:page2, rect:[10,10,100,100], call:function(){pages.go(page1, "left");} },
+		{page:page2, rect:[120,10,100,100], call:myFunction}
+	]);
+	hotSpots.show(); 
+	// normally would not show but rather be like an image map
+	// note, in this case the page is scaled to both width and height
+	// so hotspots are stretched with page scaling	
+
+	var pane = new zim.Pane(stage, 300, 100, "HOTSPOT", "beige");
+	function myFunction() {
+		zog("can make big long function here");
+		pane.show();
+	}
+	
+	// put resizing code in here (scaling="full" only)
+	frame.on("resize", resize);
+	function resize(e) {
+		stageW = frame.stageW;
+		stageH = frame.stageH;
+		
+		// do any custom scaling
+		// page2 is not in a layout so will need to scale manually
+		zim.scaleTo(page2, stage, 100, 100, "both"); 
+	
+		// ZIM PAGES MODULE - here is a guideline for resizing
+		
+		// resize the gridManager			
+		gridManager.resize();
+		
+		// resize the guideManager			
+		guideManager.resize();
+	
+		// resize the layoutManager 			
+		layoutManager.resize();
+	
+		// resize the pages 
+		pages.resize(); // for transitions
+		
+		// or if you change pages and layouts depending on orientation:						
+		if (frame.orientation == "horizontal") {
+			// resize appropriate layoutManager
+			// resize appropriate pages
+		} else {
+			// resize appropriate layoutManager
+			// resize appropriate pages
+		}
+	
+		
+		stage.update();
+	}
+	resize(); // often want to call resize after page is made
+	
+	// put orientation change code in here
+	frame.on("orientation", function(e) {
+		
+		// ORIENTATION CHANGE
+		// if needing to switch pages and layouts for orientation change
+		// then use the following (see ZIM Pages example for working demonstration)
+		
+		if (frame.orientation == "horizontal") {
+			// disable and enable appropriate pages and layoutManager
+		} else {
+			// disable and enable appropriate pages and layoutManager
+		}
+					
+		stage.update();
+	});
+	
+	stage.update();
+	
+}); // end of ready
+</script>
+</head>
+
+<body data-pinterest-extension-installed="cr1.35" style="overflow: hidden;">
+<!-- canvas with id="myCanvas" is made by zim Frame -->
+
+<script type="text/javascript">(function () {
+        return window.SIG_EXT = {};
+      })()</script><canvas id="myCanvas" width="1920" height="1920" style="top: 0px; left: 0px;"></canvas></body></html>
