@@ -3,7 +3,7 @@ var $container = document.getElementById("container");
 var $canvas = document.getElementById("canvas");
 var canvasContext = document.getElementById("canvas").getContext("2d");
 var $loading = document.getElementById("loading");
-var stage, lne, squares = [], defaultX, defaultO, thisX, thisY, pieces, p1Text, p2Text;
+var stage, lines, squares = [], defaultX, defaultO, thisX, thisY, pieces, p1Text, p2Text;
 var endGameMenu, endGameBack, endGameAnotherBtn, endGameNewBtn, endGameSwitchBtn;
 var numPlayers, numPlayersMenu, numPlayersBack, numPlayersOneBtn, numPlayersTwoBtn;
 var numGames = theWinner = player1Score = player2Score = 0;
@@ -16,7 +16,7 @@ var canvasH = 720;
 var canvasW = 480;
 
 var manifest = [
-    {src: "images/lne.png", id: "lne"},
+    {src: "images/lines.png", id: "lines"},
     {src: "images/square.png", id: "square"},
     {src: "images/x.png", id: "x"},
     {src: "images/o.png", id: "o"},
@@ -121,13 +121,13 @@ function Init() {
     player2ScoreText.rotation = 180;
     stage.addChild(player2ScoreText);
     
-    lne = new createjs.Bitmap("images/lne.png");
-    lne.regX = lne.image.width / 2;
-    lne.regY = lne.image.height / 2;
-    lne.x = canvasW / 2;
-    lne.y = canvasH / 2;
-    lne.alpha = .5;
-    stage.addChild(lne);
+    lines = new createjs.Bitmap("images/lines.png");
+    lines.regX = lines.image.width / 2;
+    lines.regY = lines.image.height / 2;
+    lines.x = canvasW / 2;
+    lines.y = canvasH / 2;
+    lines.alpha = .5;
+    stage.addChild(lines);
     
     // places the squares within each potential piece location
     // squares have touch events for player moves
